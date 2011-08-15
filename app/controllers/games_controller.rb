@@ -80,4 +80,11 @@ class GamesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def game_script
+    @game = Game.find(params[:id])
+    script = @game.script.split(/\n/)
+    
+    render :json => script
+  end
 end

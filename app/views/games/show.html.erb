@@ -4,10 +4,34 @@
 </canvas>
 
 <script id="game" type="text/javascript">
+  var gameId = <%= @game.id %>;
+  var currentText = 0;
+  var game;
 
-  var count = 0;
+  function getGame() {
+    var ajaxUrl = '/games/' + gameId + '/game_script';
+    jQuery.ajax({
+      url: ajaxUrl,
+      type: "GET",
+      dataType: 'json',
+      success:function(data) {
+        game = data;
+      },
+      failure:function(msg) {
+        alert("failed to get data from server");
+      }
+    });
+  }
+
+  function nextText() {
+    text = game[currentText];
+    currentText++;
+    return text;
+  }
 
   function sketch(processing) {
+    getGame();
+
     processing.setup = function() {
       processing.background(125);
       processing.fill(255);
@@ -21,8 +45,7 @@
     }
 
     processing.mousePressed = function() {
-      processing.text("Hello world!",50,50 + count);
-      count += 10;
+      processing.text(nextText(), 50, 50);
     }
   }
 
