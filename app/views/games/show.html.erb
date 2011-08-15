@@ -5,6 +5,8 @@
 
 <script id="game" type="text/javascript">
 
+  var count = 0;
+
   function sketch(processing) {
     processing.setup = function() {
       processing.background(125);
@@ -12,8 +14,6 @@
       var font = processing.loadFont("courier");
       processing.textFont(font, 14);
       processing.size(600, 400);
-
-      // Gather the nessesary game data
     }
 
     processing.draw = function() {
