@@ -7,6 +7,7 @@
   var gameId = <%= @game.id %>;
   var currentText = 0;
   var started = false;
+  var ended = false;
   var game;
 
   function getGame() {
@@ -26,7 +27,8 @@
 
   function nextText() {
     if(game.length == currentText) {
-      return null;
+      ended = true;
+      return "Last text of the game";
     }
 
     text = game[currentText];
@@ -47,10 +49,13 @@
 
     processing.draw = function() {
       processing.noLoop();
+      processing.background(125);
       if(!started) {
         processing.text("Click to Start! ゲームを始めにクリックしてください",20,20);
+      } else if(ended) {
+        processing.text("End of Game",20,20);
       } else {
-        processing.text(nextText(), 50, 200);
+        processing.text(nextText(), 50, 320);
       }
     }
 
