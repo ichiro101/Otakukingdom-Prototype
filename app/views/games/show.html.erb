@@ -24,6 +24,10 @@
   }
 
   function nextText() {
+    if(game.length == currentText) {
+      return null;
+    }
+
     text = game[currentText];
     currentText++;
     return text;
@@ -45,7 +49,12 @@
     }
 
     processing.mousePressed = function() {
-      processing.text(nextText(), 50, 50);
+      text = nextText();
+      if(text != null) {
+        processing.text(text, 50, 50);
+      } else {
+        processing.text("End of Game", 50, 100);
+      }
     }
   }
 
