@@ -6,6 +6,7 @@
 <script id="game" type="text/javascript">
   var gameId = <%= @game.id %>;
   var currentText = 0;
+  var started = false;
   var game;
 
   function getGame() {
@@ -45,16 +46,20 @@
     }
 
     processing.draw = function() {
-      processing.text("Click to Start!",20,20);
+      processing.noLoop();
+      if(!started) {
+        processing.text("Click to Start! ゲームを始めにクリックしてください",20,20);
+      } else {
+        processing.text(nextText(), 50, 200);
+      }
     }
 
     processing.mousePressed = function() {
-      text = nextText();
-      if(text != null) {
-        processing.text(text, 50, 50);
-      } else {
-        processing.text("End of Game", 50, 100);
+      if(!started) {
+        started = true;
       }
+
+      processing.redraw();
     }
   }
 
