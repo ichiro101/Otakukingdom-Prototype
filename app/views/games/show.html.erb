@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<canvas id="game">
+</canvas>
+
+<script id="game" type="text/javascript">
+
+  function sketch(processing) {
+    processing.setup = function() {
+      processing.background(125);
+      processing.fill(255);
+      var font = processing.loadFont("courier");
+      processing.textFont(font, 14);
+      processing.size(600, 400);
+
+      // Gather the nessesary game data
+    }
+
+    processing.draw = function() {
+      processing.text("Click to Start!",20,20);
+    }
+
+    processing.mousePressed = function() {
+      processing.text("Hello world!",50,50 + count);
+      count += 10;
+    }
+  }
+
+  var canvas = document.getElementById("game");
+  var p = new Processing(canvas, sketch);
+</script>
+
+<%= link_to 'Edit', edit_game_path(@game) %> |
+<%= link_to 'Back', games_path %>
