@@ -1,76 +1,8 @@
+<%= coffeescript_include_tag 'engine' %>
 <p id="notice"><%= notice %></p>
 
 <canvas id="game">
 </canvas>
-
-<script id="game" type="text/javascript">
-  var gameId = <%= @game.id %>;
-  var currentText = 0;
-  var started = false;
-  var ended = false;
-  var game;
-
-  function getGame() {
-    var ajaxUrl = '/games/' + gameId + '/game_script';
-    jQuery.ajax({
-      url: ajaxUrl,
-      type: "GET",
-      dataType: 'json',
-      success:function(data) {
-        game = data;
-      },
-      failure:function(msg) {
-        alert("failed to get data from server");
-      }
-    });
-  }
-
-  function nextText() {
-    if(game.length == currentText) {
-      ended = true;
-      return "Last text of the game";
-    }
-
-    text = game[currentText];
-    currentText++;
-    return text;
-  }
-
-  function sketch(processing) {
-    getGame();
-
-    processing.setup = function() {
-      processing.background(125);
-      processing.fill(255);
-      var font = processing.loadFont("courier");
-      processing.textFont(font, 14);
-      processing.size(600, 400);
-    }
-
-    processing.draw = function() {
-      processing.noLoop();
-      processing.background(125);
-      if(!started) {
-        processing.text("Click to Start! ゲームを始めにクリックしてください",20,20);
-      } else if(ended) {
-        processing.text("End of Game",20,20);
-      } else {
-        processing.text(nextText(), 50, 320);
-      }
-    }
-
-    processing.mousePressed = function() {
-      if(!started) {
-        started = true;
-      }
-
-      processing.redraw();
-    }
-  }
-
-  var canvas = document.getElementById("game");
-  var p = new Processing(canvas, sketch);
-</script>
 
 <%= link_to 'Edit', edit_game_path(@game) %> |
 <%= link_to 'Back', games_path %>
