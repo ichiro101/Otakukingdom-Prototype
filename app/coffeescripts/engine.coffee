@@ -5,7 +5,6 @@ class OGame
 	# status variables
 	updateText = false
 	gameStarted = false
-	menuClicked = false
 
 	# current menu items
 	currentMenuItems = []
@@ -43,8 +42,8 @@ class OGame
 						# update the script once menu item is clicked so we can get out of menu
 						# event
 						updateText = true
-				# if the user is here that means the user did not click on
-				# any menu items
+				# do not do any more processing once a menu item decision is made and the text is
+				# already updated, or if the user clicked somewhere else
 				return
 			
 			# update text if it's not the case here
@@ -104,6 +103,7 @@ class OMenuItem
 
 	clicked: (x, y) ->
 
+	# Check if the x, y coordinate provided is within the boundary of the box
 	within: (x, y) ->
 		if (x > @x and x < @x + Setting.MENU_ITEM_WIDTH) and (y > @y and y < @y + Setting.MENU_ITEM_HEIGHT)
 			true
