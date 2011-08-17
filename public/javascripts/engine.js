@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 17 Aug 2011 15:35:13 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 17 Aug 2011 15:44:45 GMT from
  * /home/ichiro/web-dev/otakukingdom-prototype/app/coffeescripts/engine.coffee
  */
 

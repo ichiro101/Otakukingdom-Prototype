@@ -17,9 +17,42 @@
   </div>
   <div class="field">
     <%= f.label :script %><br />
-    <%= f.text_area :script %>
+    <div id="editor"><%= @game.script %></div>
+    <script src="/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/ace/mode-coffee.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      window.onload = function() {
+        window.editor = ace.edit("editor");
+        var CoffeeMode = require("ace/mode/coffee").Mode;
+        editor.getSession().setMode(new CoffeeMode());
+      }
+
+      saveFile = function() {
+        var contents = editor.getSession().getValue();
+
+        $.post("<%= save_game_game_path(@game) %>",
+          {contents:contents},
+          function(data) {
+            if(data == true) {
+              alert("Script saved");
+            } else {
+              alert("Not saved");
+            }
+          }
+        );
+      }
+    </script>
   </div>
+  Pressing update will ONLY update the title! To save, use the save button.
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+  <button onclick="saveFile();">Save</button>
+<style>
+  #editor {
+    position:relative;
+    width:500px;
+    height:400px;
+  }
+</style>

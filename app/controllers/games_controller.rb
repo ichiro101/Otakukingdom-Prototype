@@ -81,6 +81,17 @@ class GamesController < ApplicationController
     end
   end
 
+  def save_game
+    @game = Game.find(params[:id])
+    @game.script = params[:contents]
+    puts @game
+    if @game.save
+      render :json => true
+    else
+      render :json => false
+    end
+  end
+
   def game_script
     @game = Game.find(params[:id])
     render :inline => CoffeeScript.compile(@game.script)

@@ -47,6 +47,7 @@ OtakukingdomPrototype::Application.routes.draw do
   #   end
   resources :games do
     member do
+      post 'save_game'
       get 'game_script'
     end
   end
