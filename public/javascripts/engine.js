@@ -1,76 +1,61 @@
-/* DO NOT MODIFY. This file was compiled Tue, 16 Aug 2011 11:24:41 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 17 Aug 2011 02:05:07 GMT from
  * /home/ichiro/web-dev/otakukingdom-prototype/app/coffeescripts/engine.coffee
  */
 
 (function() {
-  var OGame, OScript, OSetting, Script, Setting;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  OScript = (function() {
-    function OScript() {}
-    OScript.prototype.init = function() {
-      narrative("hello world");
-      return narrative("hi there");
-    };
-    return OScript;
-  })();
-  OSetting = (function() {
-    function OSetting(width, height) {
-      this.width = width;
-      this.height = height;
-    }
-    OSetting.prototype.getWidth = function() {
-      return this.width;
-    };
-    OSetting.prototype.getHeight = function() {
-      return this.height;
-    };
-    return OSetting;
-  })();
-  Setting = (function() {
-    __extends(Setting, OSetting);
-    function Setting() {
-      Setting.__super__.constructor.apply(this, arguments);
-    }
-    return Setting;
-  })();
-  Script = (function() {
-    __extends(Script, OScript);
-    function Script() {
-      Script.__super__.constructor.apply(this, arguments);
-    }
-    return Script;
+  var OGame, OGameHelper;
+  OGameHelper = (function() {
+    function OGameHelper() {}
+    return OGameHelper;
   })();
   OGame = (function() {
-    var narrative;
-    narrative = function(text) {
-      return alert(text);
-    };
     function OGame(width, height) {
       this.width = width;
       this.height = height;
     }
     OGame.prototype.sketch = function(ps) {
-      var script, settings;
+      var currentScript, currentText, ended, narrative, script, settings, started, update;
       settings = new Setting(800, 600);
-      script = new Script;
+      currentText = 0;
+      started = false;
+      ended = false;
+      currentScript = [];
+      narrative = function(text) {
+        return currentScript.push(text);
+      };
+      script = new Script(narrative);
       script.init();
       ps.setup = function() {
         ps.noLoop();
-        return ps.size(settings.getWidth(), settings.getHeight());
+        return ps.size(settings.width, settings.height);
       };
-      return ps.draw = function() {
-        return ps.text("Click to Start", 40, 20);
+      ps.draw = function() {
+        ps.background(51);
+        if (started === false) {
+          ps.text("Click to Start", 40, 20);
+        } else if (ended === true) {
+          ps.text("End of Game", 40, 20);
+        } else {
+          return ps.text(currentScript[currentText], 40, 400);
+        }
+      };
+      ps.mouseClicked = function() {
+        return update();
+      };
+      return update = function() {
+        if (started === false) {
+          started = true;
+        }
+        if (currentText === currentScript.length) {
+          ended = true;
+        }
+        ps.redraw();
+        return currentText++;
       };
     };
     OGame.prototype.run = function() {
       var canvas, p;
+      this.defineScriptFunctions;
       canvas = document.getElementById('game');
       return p = new Processing(canvas, this.sketch);
     };

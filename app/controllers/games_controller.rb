@@ -83,8 +83,6 @@ class GamesController < ApplicationController
 
   def game_script
     @game = Game.find(params[:id])
-    script = @game.script.split(/\n/)
-    
-    render :json => script
+    render :inline => CoffeeScript.compile(@game.script)
   end
 end
