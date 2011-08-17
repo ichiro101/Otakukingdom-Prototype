@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 17 Aug 2011 05:10:53 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 17 Aug 2011 09:55:48 GMT from
  * /home/ichiro/web-dev/otakukingdom-prototype/app/coffeescripts/pre.coffee
  */
 
@@ -11,22 +11,43 @@
     child.__super__ = parent.prototype;
     return child;
   };
-  window.OEvent = (function() {
-    function OEvent(type, value) {
-      this.type = type;
+  window.OStatus = (function() {
+    function OStatus() {}
+    OStatus.ENDED = 1;
+    OStatus.MENU_EVENT = 2;
+    OStatus.SCREEN_EVENT = 3;
+    OStatus.TEXT_EVENT = 4;
+    return OStatus;
+  })();
+  window.OEventObject = (function() {
+    function OEventObject(status, value) {
+      this.status = status;
       this.value = value;
     }
-    return OEvent;
+    return OEventObject;
   })();
   window.OScript = (function() {
-    function OScript(narrative, event) {
-      this.narrative = narrative;
-      this.event = event;
-    }
+    var buffer, narrative;
+    function OScript() {}
+    buffer = [];
     OScript.prototype.init = function() {
-      this.narrative("Hello there");
-      this.narrative("You are reading a visual novel that has not yet been configured");
-      return this.narrative("Please see the developer's documentation");
+      narrative("Hello there");
+      narrative("You are reading a visual novel that has not yet been configured");
+      return narrative("Please see the developer's documentation");
+    };
+    OScript.prototype._next = function() {
+      var item, object;
+      if (buffer.length > 0) {
+        return item = buffer.shift();
+      } else {
+        object = new OEventObject(OStatus.ENDED, null);
+        return object;
+      }
+    };
+    narrative = function(text) {
+      var bufferObject;
+      bufferObject = new OEventObject(OStatus.TEXT_EVENT, text);
+      return buffer.push(bufferObject);
     };
     return OScript;
   })();

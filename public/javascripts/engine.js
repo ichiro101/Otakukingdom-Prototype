@@ -1,56 +1,41 @@
-/* DO NOT MODIFY. This file was compiled Wed, 17 Aug 2011 02:05:07 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 17 Aug 2011 09:56:11 GMT from
  * /home/ichiro/web-dev/otakukingdom-prototype/app/coffeescripts/engine.coffee
  */
 
 (function() {
-  var OGame, OGameHelper;
-  OGameHelper = (function() {
-    function OGameHelper() {}
-    return OGameHelper;
-  })();
+  var OGame;
   OGame = (function() {
+    var currentEvent, updateText;
     function OGame(width, height) {
       this.width = width;
       this.height = height;
     }
+    updateText = false;
+    currentEvent = 0;
     OGame.prototype.sketch = function(ps) {
-      var currentScript, currentText, ended, narrative, script, settings, started, update;
+      var script, settings;
       settings = new Setting(800, 600);
-      currentText = 0;
-      started = false;
-      ended = false;
-      currentScript = [];
-      narrative = function(text) {
-        return currentScript.push(text);
-      };
-      script = new Script(narrative);
-      script.init();
+      script = new Script();
       ps.setup = function() {
-        ps.noLoop();
+        script.init();
         return ps.size(settings.width, settings.height);
       };
       ps.draw = function() {
         ps.background(51);
-        if (started === false) {
-          ps.text("Click to Start", 40, 20);
-        } else if (ended === true) {
-          ps.text("End of Game", 40, 20);
-        } else {
-          return ps.text(currentScript[currentText], 40, 400);
+        if (updateText === true) {
+          currentEvent = script._next();
+          updateText = false;
+          ps.println("Current event code: " + currentEvent.value);
+          ps.println("test event code: " + currentEvent.status);
+        }
+        if (currentEvent.status === OStatus.TEXT_EVENT) {
+          return ps.text(currentEvent.value, 40, 400);
+        } else if (currentEvent.status === OStatus.ENDED) {
+          return ps.text("End of Game", 20, 400);
         }
       };
-      ps.mouseClicked = function() {
-        return update();
-      };
-      return update = function() {
-        if (started === false) {
-          started = true;
-        }
-        if (currentText === currentScript.length) {
-          ended = true;
-        }
-        ps.redraw();
-        return currentText++;
+      return ps.mouseClicked = function() {
+        return updateText = true;
       };
     };
     OGame.prototype.run = function() {

@@ -1,47 +1,36 @@
-class OGameHelper
-
-
 # Represents an instance of a game
 class OGame
 	constructor: (@width, @height) ->
 
+	# If we should be updating text from the script
+	updateText = false
+	currentEvent = 0
+
 	sketch: (ps) ->
 		settings = new Setting(800, 600)
-		currentText = 0
-		started = false
-		ended = false
-		currentScript = []
-		narrative = (text) ->
-			currentScript.push(text)
-
-		script = new Script(narrative)
-		script.init()
+		script = new Script()
 
 		ps.setup = () ->
-			ps.noLoop()
+			script.init()
 			ps.size settings.width, settings.height
 
 		ps.draw = () ->
 			ps.background(51)
-			if started == false
-				ps.text "Click to Start", 40, 20
-				return
-			else if ended == true
-				ps.text "End of Game", 40, 20
-				return
-			else
-				ps.text currentScript[currentText], 40, 400
+
+			if updateText == true
+				currentEvent = script._next()
+				updateText = false
+				# for debugging ONLY
+				ps.println("Current event code: " + currentEvent.value)
+			
+
+			if currentEvent.status == OStatus.TEXT_EVENT
+				ps.text currentEvent.value, 40, 400
+			else if currentEvent.status == OStatus.ENDED
+				ps.text "End of Game", 20, 400
 
 		ps.mouseClicked = () ->
-			update()
-
-		update = () ->
-			if started == false
-				started = true
-			if currentText == currentScript.length
-				ended = true
-			ps.redraw()
-			currentText++
+			updateText = true
 
 	run: ->
 		this.defineScriptFunctions
