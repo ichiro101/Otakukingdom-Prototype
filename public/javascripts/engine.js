@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 17 Aug 2011 15:44:45 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 17 Aug 2011 16:58:40 GMT from
  * /home/ichiro/web-dev/otakukingdom-prototype/app/coffeescripts/engine.coffee
  */
 
@@ -37,6 +37,7 @@
         if (currentEvent.status === OStatus.MENU_EVENT) {
           for (_i = 0, _len = currentMenuItems.length; _i < _len; _i++) {
             oMenuItem = currentMenuItems[_i];
+            console.log(oMenuItem);
             if (oMenuItem.within(ps.mouseX, ps.mouseY)) {
               oMenuItem.menuItem["function"]();
               updateText = true;
