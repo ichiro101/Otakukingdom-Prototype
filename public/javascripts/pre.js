@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 17 Aug 2011 11:34:52 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 17 Aug 2011 14:19:21 GMT from
  * /home/ichiro/web-dev/otakukingdom-prototype/app/coffeescripts/pre.coffee
  */
 
@@ -11,6 +11,13 @@
     child.__super__ = parent.prototype;
     return child;
   };
+  window.Character = (function() {
+    function Character(name, color) {
+      this.name = name;
+      this.color = color;
+    }
+    return Character;
+  })();
   window.OStatus = (function() {
     function OStatus() {}
     OStatus.ENDED = 1;
@@ -34,7 +41,7 @@
     return MenuItem;
   })();
   window.OScript = (function() {
-    var buffer, narrative, showMenu;
+    var buffer;
     function OScript() {}
     buffer = [];
     OScript.prototype.init = function() {
@@ -59,12 +66,12 @@
         return object;
       }
     };
-    narrative = function(text) {
+    window.narrative = function(text) {
       var bufferObject;
       bufferObject = new OEventObject(OStatus.TEXT_EVENT, text);
       return buffer.push(bufferObject);
     };
-    showMenu = function(menuItems) {
+    window.showMenu = function(menuItems) {
       var bufferObject;
       bufferObject = new OEventObject(OStatus.MENU_EVENT, menuItems);
       return buffer.push(bufferObject);

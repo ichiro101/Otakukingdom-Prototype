@@ -1,3 +1,6 @@
+class window.Character
+	constructor: (@name, @color) ->
+
 class window.OStatus
 	@ENDED = 1
 	@MENU_EVENT = 2
@@ -35,11 +38,11 @@ class window.OScript
 			object = new OEventObject(OStatus.ENDED, null)
 			return object
 
-	narrative = (text) ->
+	window.narrative = (text) ->
 		bufferObject = new OEventObject(OStatus.TEXT_EVENT, text)
 		buffer.push(bufferObject)
 
-	showMenu = (menuItems) ->
+	window.showMenu = (menuItems) ->
 		bufferObject = new OEventObject(OStatus.MENU_EVENT, menuItems)
 		buffer.push(bufferObject)
 
