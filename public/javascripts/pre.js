@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 17 Aug 2011 02:05:07 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 17 Aug 2011 05:10:53 GMT from
  * /home/ichiro/web-dev/otakukingdom-prototype/app/coffeescripts/pre.coffee
  */
 
@@ -11,9 +11,17 @@
     child.__super__ = parent.prototype;
     return child;
   };
+  window.OEvent = (function() {
+    function OEvent(type, value) {
+      this.type = type;
+      this.value = value;
+    }
+    return OEvent;
+  })();
   window.OScript = (function() {
-    function OScript(narrative) {
+    function OScript(narrative, event) {
       this.narrative = narrative;
+      this.event = event;
     }
     OScript.prototype.init = function() {
       this.narrative("Hello there");

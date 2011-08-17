@@ -1,10 +1,11 @@
 class window.OScript
-	constructor: (@narrative) ->
+	constructor: (@narrative, @event) ->
 
 	init: ->
 		@narrative "Hello there"
 		@narrative "You are reading a visual novel that has not yet been configured"
 		@narrative "Please see the developer's documentation"
+
 
 class window.OSetting
 	constructor: (@width, @height) ->
