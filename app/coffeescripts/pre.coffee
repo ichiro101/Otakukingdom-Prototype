@@ -7,6 +7,9 @@ class window.OStatus
 class window.OEventObject
 	constructor: (@status, @value) ->
 
+class window.MenuItem
+	constructor: (@text, @function) ->
+
 class window.OScript
 	constructor: () ->
 	
@@ -16,6 +19,14 @@ class window.OScript
 		narrative "Hello there"
 		narrative "You are reading a visual novel that has not yet been configured"
 		narrative "Please see the developer's documentation"
+		narrative "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sit amet velit purus. Suspendisse potenti. Proin vestibulum vulputate leo, faucibus luctus ipsum ultricies at. Praesent fringilla, diam in convallis viverra, nunc quam eleifend nunc, nec accumsan massa ipsum at arcu. Proin convallis orci massa, quis aliquet libero. Vivamus vel nisi vitae nibh pharetra sagittis in id metus. Nulla facilisi. Nulla ac tortor et nunc malesuada dapibus ac in sapien. Aliquam molestie adipiscing erat ut fermentum."
+		showMenu [new MenuItem("Decision 1", this.decision1), new MenuItem("Decision 2", this.decision2)]
+
+	decision1: ->
+		narrative "You have picked decision 1"
+
+	decision2: ->
+		narrative "You have picked decision 2"
 
 	_next: ->
 		if buffer.length > 0
@@ -28,11 +39,15 @@ class window.OScript
 		bufferObject = new OEventObject(OStatus.TEXT_EVENT, text)
 		buffer.push(bufferObject)
 
+	showMenu = (menuItems) ->
+		bufferObject = new OEventObject(OStatus.MENU_EVENT, menuItems)
+		buffer.push(bufferObject)
 
-class window.OSetting
-	constructor: (@width, @height) ->
 
-# Set the default classes, these are to be overriden by the script developer
-class window.Setting extends window.OSetting
+class window.Setting
+	@GAME_WIDTH = 800
+	@GAME_HEIGHT = 600
+	@MENU_ITEM_WIDTH = this.GAME_WIDTH - 100
+	@MENU_ITEM_HEIGHT = 40
 
 class window.Script extends window.OScript
